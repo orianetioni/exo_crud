@@ -1,6 +1,6 @@
 <?php
 include 'functions_custom.php';
-$pdo_Conn = pdo_connect_mysql ();
+$conn = pdo_connect_mysql ();
 
 $pdo_statement = $conn->prepare("SELECT * FROM students");
 $pdo_statement->execute();
