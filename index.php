@@ -1,6 +1,6 @@
 <?php
 include 'functions_custom.php';
-$pdo_Conn = pdo_connect_mysql ();
+$conn = pdo_connect_mysql ();
 // Home Page template below.
 ?>
 
