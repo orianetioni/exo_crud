@@ -5,7 +5,7 @@ $conn = pdo_connect_mysql ();
 $pdo_statement = $conn->prepare("SELECT * FROM students");
 $pdo_statement->execute();
 // Fetch the records so we can display them in our template.
-$students = $pdo_statement->fetchAll(PDO::FETCH_ASSOC);
+$results = $pdo_statement->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <?php echo template_header('Read'); ?>
@@ -26,7 +26,7 @@ $students = $pdo_statement->fetchAll(PDO::FETCH_ASSOC);
             </tr>
         </thead>
         <tbody>
-        <?php foreach ($students as $student): ?>
+        <?php foreach ($results as $student): ?>
             <tr>
                 <td><?=$student['id']?></td>
                 <td><?=$student['last_name']?></td>
@@ -35,7 +35,7 @@ $students = $pdo_statement->fetchAll(PDO::FETCH_ASSOC);
                 <td><?=$student['phone']?></td>
                 <td><?=$student['age']?></td>
                 <td class="actions">
-                    <a href="update.php?id=1" class="edit"><i class="fas fa-pen fa-xs"></i></a>
+                    <a href="update.php? id=<?php echo $student['id'] ?>" class="edit"><i class="fas fa-pen fa-xs"></i></a>
                     <a href="delete.php?id=2" class="trash"><i class="fas fa-trash fa-xs"></i></a>
                 </td>
             </tr>

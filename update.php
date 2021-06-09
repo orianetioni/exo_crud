@@ -12,43 +12,43 @@ if (isset($_GET['id'])) {
 		$email = isset($_POST['email']) ? $_POST['email'] : '';
 		$phone = isset($_POST['phone']) ? $_POST['phone'] : '';
 		$age= isset($_POST['age']) ? $_POST['age'] : '';
-        // Update the record
-        $pdo_statement = $conn->prepare('UPDATE students SET id = ?, last_name = ?, first_name = ?,email = ?, phone = ?,age = ?, WHERE id = ?');
-        $pdo_statement->execute([$id, $first_name , $last_name, $email, $phone, $age, $_GET['id']]);
+        
+        $stmt = $conn->prepare('UPDATE students SET id = ?, name = ?, email = ?, phone = ?, age = ? WHERE id = ?');
+        $stmt->execute([$id, $first_name, $last_name, $email, $phone, $age, $_GET['id']]);
         $msg = 'Updated Successfully!';
     }
-    
-	$pdo_statement= $conn->prepare('SELECT * FROM students WHERE id = ?');
-	$pdo_statement->execute([$_GET['id']]);
-    $student = $pdo_statement->fetch(PDO::FETCH_ASSOC);
-    if (!$student) {
-        exit("Students doesn't exist");
-    }
-} else {
-    exit('No ID specified!');
+    // Get the contact from the contacts table
+    $stmt = $conn->prepare('SELECT * FROM students WHERE id = ?');
+    $stmt->execute([$_GET['id']]);
+    $results = $stmt->fetch(PDO::FETCH_ASSOC);
+
 }
+
 ?>
+<pre> 
+<?php print_r ($_POST) ?>
+</pre>
 <?=template_header('Read')?>
 
 <div class="content update">
 	<h2>Update Student Guillaume</h2>
-	<form action="update.php?id=<?=$student['id']?>" method="post">
+	<form action="update.php?id=<?php  echo $results['id']?>" method="post">
         <label for="id">ID</label>
-        <input type="text" name="id"  value="<?=$student['id']?>" id="id">
+        <input type="text" name="id"  value="<?php  echo $results['id']?>" id="id">
 
         <label for="name">LastName</label>
-        <input type="text" name="last_name"  value="<?=$student['last_name']?>" id="id">
+        <input type="text" name="last_name"  value="<?php  echo $results['last_name']?>" id="ln">
       
         <label for="name">FirstName</label>
-        <input type="text" name="first_name"  value="<?=$student['first_name']?>" id="id">
+        <input type="text" name="first_name"  value="<?php echo $results['first_name']?>" id="fn">
        
         <label for="email">Email</label>
-        <input type="text" name="email"  value="<?=$student['email']?>" id="email">
+        <input type="text" name="email"  value="<?php  echo $results['email']?>" id="email">
         <label for="phone">Phone</label>
      
-        <input type="text" name="phone"  value="<?=$student['phone']?>" id="phone">
+        <input type="text" name="phone"  value="<?php  echo $results['phone']?>" id="phone">
         <label for="title">Age</label>
-        <input type="text" name="title" placeholder="Employee" value="<?=$student['age']?>" id="title">
+        <input type="text" name="age" value="<?php  echo $results['age']?>" id="age">
         
         <input type="submit" value="Update">
     </form>
@@ -56,7 +56,7 @@ if (isset($_GET['id'])) {
 
 <?php 
  if ($msg): ?>
-    <p><?=$msg?></p>
+    <p><?php echo $msg?></p>
     <?php endif; ?>
 
 </div>
