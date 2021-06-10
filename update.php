@@ -31,7 +31,7 @@ if (isset($_GET['id'])) {
 <?=template_header('Read')?>
 
 <div class="content update">
-	<h2>Update Student Guillaume</h2>
+	<h2>Update Student </h2>
 	<form action="update.php?id=<?php  echo $results['id']?>" method="post">
         <label for="id">ID</label>
         <input type="text" name="id"  value="<?php  echo $results['id']?>" id="id">
